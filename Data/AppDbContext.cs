@@ -14,6 +14,7 @@ namespace GandamarCloudAPI.Data
         public DbSet<CloudOnlineOrder> Orders { get; set; }
         public DbSet<CloudOnlineOrderDetail> OrderDetails { get; set; }
         public DbSet<CloudStockEntry> StockEntries { get; set; }
+        public DbSet<CloudUser> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
