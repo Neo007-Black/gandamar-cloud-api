@@ -1,0 +1,6 @@
+@GandamarCloudAPI_HostAddress = http://localhost:5244
+
+GET {{GandamarCloudAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
