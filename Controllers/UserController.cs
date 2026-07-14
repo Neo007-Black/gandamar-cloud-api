@@ -44,7 +44,7 @@ namespace GandamarCloudAPI.Controllers
         }
 
         [HttpPost("login")]
-        public async Task<IActionResult> Login([FromBody] LoginRequest req)
+        public async Task<IActionResult> Login([FromBody] UserLoginRequest req)
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == req.Username && u.PasswordHash == req.PasswordHash);
             if (user == null)
@@ -55,7 +55,7 @@ namespace GandamarCloudAPI.Controllers
         }
     }
 
-    public class LoginRequest
+    public class UserLoginRequest
     {
         public string Username { get; set; } = "";
         public string PasswordHash { get; set; } = "";
