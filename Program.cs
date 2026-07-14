@@ -9,8 +9,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 // Hardcode to ensure Render doesn't use old Environment Variables
-// (Reverted broken SNI workaround)
-var connectionString = "Host=ep-lively-surf-ao0ayu4c-pooler.c-2.ap-southeast-1.aws.neon.tech;Database=neondb;Username=neondb_owner;Password=npg_verN9s6jmbfi;SslMode=Require;Trust Server Certificate=true;";
+// Added properly quoted "endpoint=ep-lively-surf-ao0ayu4c;" to Password as a workaround for SNI stripping in Docker containers
+var connectionString = "Host=ep-lively-surf-ao0ayu4c-pooler.c-2.ap-southeast-1.aws.neon.tech;Database=neondb;Username=neondb_owner;Password='endpoint=ep-lively-surf-ao0ayu4c;npg_verN9s6jmbfi';SslMode=Require;Trust Server Certificate=true;";
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(connectionString));
