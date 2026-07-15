@@ -16,6 +16,13 @@ namespace GandamarCloudAPI.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
+        {
+            var suppliers = await _context.Suppliers.ToListAsync();
+            return Ok(suppliers);
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest req)
         {
