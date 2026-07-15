@@ -46,7 +46,12 @@ namespace GandamarCloudAPI.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginRequest req)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == req.Username && u.PasswordHash == req.PasswordHash);
+            // Hash the incoming plain text password before checking
+            var bytes = System.Text.Encoding.UTF8.GetBytes(req.Password);
+            var hashBytes = System.Security.Cryptography.SHA256.HashData(bytes);
+            var hashedStr = Convert.ToHexString(hashBytes).ToLower();
+
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == req.Username && u.PasswordHash == hashedStr);
             if (user == null)
             {
                 return Unauthorized(new { message = "Invalid username or password" });
@@ -58,6 +63,6 @@ namespace GandamarCloudAPI.Controllers
     public class UserLoginRequest
     {
         public string Username { get; set; } = "";
-        public string PasswordHash { get; set; } = "";
+        public string Password { get; set; } = "";
     }
 }
