@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using GandamarCloudAPI.Data;
 using GandamarCloudAPI.Models;
 
@@ -13,6 +14,17 @@ namespace GandamarCloudAPI.Controllers
         public OrderController(AppDbContext context)
         {
             _context = context;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetOrders()
+        {
+            var orders = await _context.Orders
+                .Include(o => o.Details)
+                .OrderByDescending(o => o.OrderDate)
+                .Take(50)
+                .ToListAsync();
+            return Ok(orders);
         }
 
         [HttpPost]
