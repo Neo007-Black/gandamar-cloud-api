@@ -45,5 +45,23 @@ namespace GandamarCloudAPI.Controllers
 
             return Ok(new { message = "Order created successfully", orderNumber = order.OrderNumber });
         }
+
+        [HttpPut("{syncId}/status")]
+        public async Task<IActionResult> UpdateOrderStatus(string syncId, [FromBody] StatusUpdateRequest req)
+        {
+            var order = await _context.Orders.FirstOrDefaultAsync(o => o.SyncId == syncId);
+            if (order == null) return NotFound();
+
+            order.Status = req.Status;
+            order.IsSyncedToDesktop = false; // Mark to sync back to Desktop
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "Order status updated successfully" });
+        }
+    }
+
+    public class StatusUpdateRequest
+    {
+        public string Status { get; set; } = "";
     }
 }
